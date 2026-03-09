@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>All Orders</h2>
+<table style="width:100%; border-collapse:collapse;">
+  <thead><tr><th>Order ID</th><th>User</th><th>Total</th><th>Status</th><th>Placed At</th><th>Action</th></tr></thead>
+  <tbody>
+    {% for o in orders %}
+    <tr>
+      <td>{{ o.order_id }}</td>
+      <td>{{ o.user_name }}</td>
+      <td>₹{{ o.total_amount }}</td>
+      <td>{{ o.status }}</td>
+      <td>{{ o.created_at }}</td>
+      <td>
+        <form method="post" action="{{ url_for('employee_orders', order_id=o.order_id) }}">
+          <select name="status">
+            <option {% if o.status=='Placed' %}selected{% endif %}>Placed</option>
+            <option {% if o.status=='Preparing' %}selected{% endif %}>Preparing</option>
+            <option {% if o.status=='Out for Delivery' %}selected{% endif %}>Out for Delivery</option>
+            <option {% if o.status=='Delivered' %}selected{% endif %}>Delivered</option>
+            <option {% if o.status=='Cancelled' %}selected{% endif %}>Cancelled</option>
+          </select>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

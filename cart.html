@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Your Cart</h2>
+
+{% if order_placed %}
+  <div style="border:1px solid #ccc; padding:12px; margin-bottom:16px;">
+    <h3>Order Placed Successfully</h3>
+    <p><strong>Order ID:</strong> {{ order_id }}</p>
+
+    <h4>Items Ordered</h4>
+    <ul>
+      {% for it in ordered_items %}
+        <li>{{ it.quantity }} x {{ it.name }} — ₹{{ it.price }}</li>
+      {% endfor %}
+    </ul>
+
+    <p><strong>Total:</strong> ₹{{ order_total }}</p>
+
+    {% if assigned %}
+      <h4>Assigned Delivery Staff</h4>
+      <p><strong>Name:</strong> {{ assigned.name }}</p>
+      <p><strong>Phone:</strong> {{ assigned.phone_no }}</p>
+    {% else %}
+      <p><em>No delivery staff was available at the moment. Staff will be assigned soon.</em></p>
+    {% endif %}
+
+    <p><a href="{{ url_for('user_home') }}">Continue shopping</a></p>
+  </div>
+{% endif %}
+
+{% if cart_items %}
+  <table style="width:100%; border-collapse:collapse;">
+    <thead>
+      <tr><th>Item</th><th>Qty</th><th>Price</th><th>Subtotal</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for it in cart_items %}
+      <tr>
+        <td>{{ it.name }}</td>
+        <td>
+          <form method="post" action="{{ url_for('update_cart', cart_id=it.cart_id) }}" style="display:inline;">
+            <input name="quantity" type="number" value="{{ it.quantity }}" min="1" style="width:60px;">
+            <button type="submit">Update</button>
+          </form>
+        </td>
+        <td>₹{{ it.price }}</td>
+        <td>₹{{ (it.price * it.quantity) | round(2) }}</td>
+        <td>
+          <form method="post" action="{{ url_for('remove_from_cart', cart_id=it.cart_id) }}" style="display:inline;">
+            <button type="submit">Remove</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p><strong>Total: ₹{{ total }}</strong></p>
+
+  <form method="post" action="{{ url_for('checkout') }}">
+    <button type="submit">Place Order</button>
+  </form>
+
+{% else %}
+  {% if not order_placed %}
+    <p>Your cart is empty. <a href="{{ url_for('user_home') }}">Shop now</a></p>
+  {% endif %}
+{% endif %}
+{% endblock %}

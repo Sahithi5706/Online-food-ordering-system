@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Employee Dashboard</h2>
+<div style="display:flex; gap:12px;">
+  <div style="border:1px solid #ddd; padding:8px;">Users: <strong>{{ users_count }}</strong></div>
+  <div style="border:1px solid #ddd; padding:8px;">Orders: <strong>{{ orders_count }}</strong></div>
+  <div style="border:1px solid #ddd; padding:8px;">Delivery Staff: <strong>{{ staff_count }}</strong></div>
+</div>
+
+<hr>
+<ul>
+  <li><a href="{{ url_for('employee_view_users') }}">Manage Users</a></li>
+  <li><a href="{{ url_for('manage_delivery_staff') }}">Manage Delivery Staff</a></li>
+  <li><a href="{{ url_for('manage_restaurants') }}">Manage Restaurants</a></li>
+  <li><a href="{{ url_for('employee_orders') }}">View Orders</a></li>
+</ul>
+{% endblock %}

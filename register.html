@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Register</h2>
+<form method="post" style="max-width:480px;">
+  <label>Name</label><br><input name="name" required style="width:100%; margin-bottom:8px;"><br>
+  <label>Email</label><br><input name="email" type="email" required style="width:100%; margin-bottom:8px;"><br>
+  <label>Password</label><br><input name="password" type="password" required style="width:100%; margin-bottom:8px;"><br>
+  <label>Phone</label><br><input name="phone" style="width:100%; margin-bottom:8px;"><br>
+  <label>Address</label><br><input name="address" style="width:100%; margin-bottom:12px;"><br>
+  <button type="submit">Register</button>
+</form>
+{% endblock %}

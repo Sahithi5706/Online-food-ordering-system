@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Checkout</h2>
+<table style="width:100%; border-collapse:collapse;">
+  <thead><tr><th>Item</th><th>Qty</th><th>Price</th></tr></thead>
+  <tbody>
+    {% for it in cart_items %}
+    <tr>
+      <td>{{ it.name }}</td>
+      <td>{{ it.quantity }}</td>
+      <td>₹{{ it.price }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p><strong>Total: ₹{{ total }}</strong></p>
+<form method="post">
+  <label>Payment method (informational)</label><br>
+  <select name="method">
+    <option>Cash on Delivery</option>
+    <option>UPI</option>
+    <option>Card</option>
+  </select>
+  <br><br>
+  <button type="submit">Place Order</button>
+</form>
+{% endblock %}

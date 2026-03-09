@@ -1,0 +1,135 @@
+
+DROP DATABASE IF EXISTS snackstack;
+CREATE DATABASE snackstack;
+USE snackstack;
+
+-- USERS
+CREATE TABLE users (
+  user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100),
+  email VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  phone_no VARCHAR(15),
+  address VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO users (name, email, password, phone_no, address)
+VALUES ('Harshini', 'harshini@example.com', '1234', '9876543210', 'Hyderabad');
+
+
+-- EMPLOYEES (LOGIN: emp_id + password)
+CREATE TABLE employees (
+  emp_id VARCHAR(50) PRIMARY KEY,
+  password VARCHAR(100) NOT NULL
+);
+
+INSERT INTO employees (emp_id, password)
+VALUES 
+('SnackStack.emp001', 'admin'),
+('SnackStack.emp002', 'admin');
+
+
+-- DELIVERY STAFF
+CREATE TABLE delivery_staff (
+  staff_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  phone_no VARCHAR(15),
+  vehicle_type VARCHAR(50),
+  current_loc VARCHAR(100),
+  status ENUM('available','busy','inactive') DEFAULT 'available',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- RESTAURANTS
+CREATE TABLE restaurants (
+  restaurant_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  owner_name VARCHAR(100),
+  email VARCHAR(100),
+  phone_no VARCHAR(15),
+  address VARCHAR(255),
+  cuisine_type VARCHAR(50),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- MENU ITEMS (Employees do NOT manage!)
+CREATE TABLE menu_items (
+  item_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  restaurant_id INT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  description VARCHAR(255),
+  price DECIMAL(10,2) NOT NULL,
+  available TINYINT(1) DEFAULT 1,
+  FOREIGN KEY (restaurant_id) REFERENCES restaurants(restaurant_id) ON DELETE CASCADE
+);
+
+
+-- ORDERS
+CREATE TABLE orders (
+  order_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  total_amount DECIMAL(10,2) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  staff_id INT DEFAULT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (staff_id) REFERENCES delivery_staff(staff_id)
+);
+
+
+-- ORDER ITEMS
+CREATE TABLE order_items (
+  order_item_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  order_id INT NOT NULL,
+  item_id INT NOT NULL,
+  quantity INT NOT NULL DEFAULT 1,
+  price DECIMAL(10,2) NOT NULL,
+  FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
+  FOREIGN KEY (item_id) REFERENCES menu_items(item_id)
+);
+
+
+-- SAMPLE RESTAURANTS
+INSERT INTO restaurants (name, owner_name, email, phone_no, address, cuisine_type)
+VALUES ('Food Hub','Kranthi','foodhub@example.com','9000012345','Hyderabad','Indian');
+
+
+-- SAMPLE MENU
+INSERT INTO menu_items (restaurant_id, name, description, price)
+VALUES 
+(1, 'Chicken Biryani', 'Spicy biryani', 180.00),
+(1, 'Paneer Butter Masala', 'Creamy paneer curry', 150.00);
+INSERT INTO restaurants (name, owner_name, email, phone_no, address, cuisine_type)
+VALUES 
+('Taste Junction', 'Ramesh', 'tastejunction@example.com', '9000023456', 'Secunderabad', 'Chinese'),
+('Bakers Delight', 'Suhasini', 'bakersdelight@example.com', '9000034567', 'Ameerpet', 'Bakery'),
+('Spice Garden', 'Mahesh', 'spicegarden@example.com', '9000045678', 'Kukatpally', 'South Indian'),
+('Urban Tadka', 'Neha', 'urbantadka@example.com', '9000056789', 'Madhapur', 'North Indian'),
+('Grill House', 'Sultan', 'grillhouse@example.com', '9000067890', 'Banjara Hills', 'Continental');
+INSERT INTO menu_items (restaurant_id, name, description, price)
+VALUES
+(2, 'Veg Manchurian', 'Dry manchurian balls tossed in sauce', 120.00),
+(2, 'Chicken Fried Rice', 'Chinese style fried rice', 140.00),
+(2, 'Hakka Noodles', 'Classic noodles stir fried with veggies', 130.00);
+INSERT INTO menu_items (restaurant_id, name, description, price)
+VALUES
+(3, 'Chocolate Muffin', 'Moist chocolate muffin', 60.00),
+(3, 'Veg Puff', 'Crispy veg puff pastry', 25.00),
+(3, 'Paneer Roll', 'Soft roll with paneer stuffing', 80.00);
+INSERT INTO menu_items (restaurant_id, name, description, price)
+VALUES
+(4, 'Masala Dosa', 'Crispy dosa stuffed with masala', 90.00),
+(4, 'Idli Sambar', 'Soft idlis with sambar', 50.00),
+(4, 'Meals Plate', 'Full South Indian thali', 120.00);
+INSERT INTO menu_items (restaurant_id, name, description, price)
+VALUES
+(5, 'Butter Chicken', 'Creamy butter gravy chicken', 200.00),
+(5, 'Dal Makhani', 'Slow-cooked creamy dal', 150.00),
+(5, 'Tandoori Roti', 'Clay-oven baked roti', 15.00);
+INSERT INTO menu_items (restaurant_id, name, description, price)
+VALUES
+(6, 'Grilled Chicken', 'Perfectly seasoned grilled chicken', 250.00),
+(6, 'BBQ Wings', 'Barbeque glazed wings', 180.00),
+(6, 'Cheese Garlic Bread', 'Garlic bread topped with cheese', 120.00);

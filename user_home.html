@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Restaurants</h2>
+<div>
+  {% for r in restaurants %}
+    <div style="border:1px solid #ddd; padding:8px; margin-bottom:8px;">
+      <strong>{{ r.name }}</strong><br>
+      <span>{{ r.cuisine_type }} • {{ r.address }}</span>
+    </div>
+  {% endfor %}
+</div>
+
+<h2>Menu</h2>
+<div>
+  {% for i in items %}
+    <div style="border:1px solid #ddd; padding:8px; margin-bottom:8px;">
+      <strong>{{ i.name }}</strong> <small>({{ i.restaurant_name }})</small><br>
+      <div>{{ i.description or '' }}</div>
+      <div><strong>₹{{ i.price }}</strong></div>
+      <form method="post" action="{{ url_for('add_to_cart', item_id=i.item_id) }}">
+        <input type="number" name="quantity" value="1" min="1" style="width:60px;">
+        <button type="submit">Add</button>
+      </form>
+      <div><a href="{{ url_for('item_detail', item_id=i.item_id) }}">Details</a></div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

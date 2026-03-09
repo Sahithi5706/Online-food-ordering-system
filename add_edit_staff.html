@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ action }} Delivery Staff</h2>
+<form method="post" style="max-width:480px;">
+  <label>Name</label><br><input name="name" value="{{ staff.name if staff else '' }}" required style="width:100%;"><br>
+  <label>Phone</label><br><input name="phone" value="{{ staff.phone_no if staff else '' }}" style="width:100%;"><br>
+  <label>Vehicle</label><br><input name="vehicle" value="{{ staff.vehicle_type if staff else '' }}" style="width:100%;"><br>
+  <label>Location</label><br><input name="location" value="{{ staff.current_loc if staff else '' }}" style="width:100%;"><br>
+  <label>Status</label><br>
+  <select name="status">
+    <option value="available" {% if staff and staff.status=='available' %}selected{% endif %}>available</option>
+    <option value="busy" {% if staff and staff.status=='busy' %}selected{% endif %}>busy</option>
+    <option value="inactive" {% if staff and staff.status=='inactive' %}selected{% endif %}>inactive</option>
+  </select><br><br>
+  <button type="submit">{{ action }}</button>
+  <a href="{{ url_for('manage_delivery_staff') }}" style="margin-left:8px;">Cancel</a>
+</form>
+{% endblock %}

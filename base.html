@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SnackStack</title>
+</head>
+<body>
+  <div style="padding:8px; background:#222; color:#fff;">
+    <div style="max-width:1000px; margin:0 auto;">
+      <strong><a href="{{ url_for('user_home') }}" style="color:#fff; text-decoration:none;">SnackStack</a></strong>
+      <span style="float:right;">
+        {% if session.get('user_id') %}
+          <a href="{{ url_for('user_home') }}" style="color:#fff; margin-right:8px;">Home</a>
+          <a href="{{ url_for('view_cart') }}" style="color:#fff; margin-right:8px;">Cart</a>
+          <a href="{{ url_for('logout') }}" style="color:#fff;">Logout ({{ session.get('user_name') }})</a>
+        {% elif session.get('emp_id') %}
+          <a href="{{ url_for('employee_dashboard') }}" style="color:#fff; margin-right:8px;">Dashboard</a>
+          <a href="{{ url_for('logout') }}" style="color:#fff;">Logout ({{ session.get('emp_name') }})</a>
+        {% else %}
+          <a href="{{ url_for('login') }}" style="color:#fff; margin-right:8px;">Login</a>
+          <a href="{{ url_for('register') }}" style="color:#fff;">Register</a>
+        {% endif %}
+      </span>
+    </div>
+  </div>
+
+  <div style="max-width:1000px; margin:18px auto;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div style="padding:10px; border:1px solid #ddd; margin-bottom:10px;">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

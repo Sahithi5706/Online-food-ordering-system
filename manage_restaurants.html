@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Restaurants</h2>
+<p><a href="{{ url_for('add_restaurant') }}">Add Restaurant</a></p>
+<table style="width:100%; border-collapse:collapse;">
+  <thead><tr><th>Name</th><th>Owner</th><th>Cuisine</th><th>Address</th><th>Actions</th></tr></thead>
+  <tbody>
+    {% for r in restaurants %}
+    <tr>
+      <td>{{ r.name }}</td>
+      <td>{{ r.owner_name }}</td>
+      <td>{{ r.cuisine_type }}</td>
+      <td>{{ r.address }}</td>
+      <td>
+        <a href="{{ url_for('edit_restaurant', rest_id=r.restaurant_id) }}">Edit</a>
+        <form method="post" action="{{ url_for('delete_restaurant', rest_id=r.restaurant_id) }}" style="display:inline;">
+                  </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

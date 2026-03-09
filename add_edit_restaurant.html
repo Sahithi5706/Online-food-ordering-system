@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ action }} Restaurant</h2>
+<form method="post" style="max-width:480px;">
+  <label>Name</label><br><input name="name" value="{{ restaurant.name if restaurant else '' }}" required style="width:100%;"><br>
+  <label>Owner</label><br><input name="owner" value="{{ restaurant.owner_name if restaurant else '' }}" style="width:100%;"><br>
+  <label>Email</label><br><input name="email" value="{{ restaurant.email if restaurant else '' }}" style="width:100%;"><br>
+  <label>Phone</label><br><input name="phone" value="{{ restaurant.phone_no if restaurant else '' }}" style="width:100%;"><br>
+  <label>Address</label><br><input name="address" value="{{ restaurant.address if restaurant else '' }}" style="width:100%;"><br>
+  <label>Cuisine Type</label><br><input name="cuisine" value="{{ restaurant.cuisine_type if restaurant else '' }}" style="width:100%;"><br><br>
+  <button type="submit">{{ action }}</button>
+  <a href="{{ url_for('manage_restaurants') }}" style="margin-left:8px;">Cancel</a>
+</form>
+{% endblock %}

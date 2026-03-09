@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Login</h2>
+<form method="post" style="max-width:480px;">
+  <label>Login as</label><br>
+  <select name="login_type" style="margin-bottom:8px;">
+    <option value="user">User</option>
+    <option value="employee">Employee</option>
+  </select><br>
+  <label>Email (for user) or Employee ID (for employee)</label><br>
+  <input name="email" required style="width:100%; margin-bottom:8px;"><br>
+  <label>Password</label><br>
+  <input name="password" type="password" required style="width:100%; margin-bottom:12px;"><br>
+  <button type="submit">Login</button>
+  <a href="{{ url_for('register') }}" style="margin-left:8px;">Register</a>
+</form>
+{% endblock %}

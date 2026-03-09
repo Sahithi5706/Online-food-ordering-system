@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Users</h2>
+<table style="width:100%; border-collapse:collapse;">
+  <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th>Joined</th></tr></thead>
+  <tbody>
+    {% for u in users %}
+    <tr>
+      <td>{{ u.name }}</td>
+      <td>{{ u.email }}</td>
+      <td>{{ u.phone_no }}</td>
+      <td>{{ u.address }}</td>
+      <td>{{ u.created_at }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+

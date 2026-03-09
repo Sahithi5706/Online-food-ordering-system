@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Delivery Staff</h2>
+<p><a href="{{ url_for('add_delivery_staff') }}">Add Staff</a></p>
+<table style="width:100%; border-collapse:collapse;">
+  <thead><tr><th>Name</th><th>Phone</th><th>Vehicle</th><th>Status</th><th>Actions</th></tr></thead>
+  <tbody>
+    {% for s in staff %}
+    <tr>
+      <td>{{ s.name }}</td>
+      <td>{{ s.phone_no }}</td>
+      <td>{{ s.vehicle_type }}</td>
+      <td>{{ s.status }}</td>
+      <td>
+        <a href="{{ url_for('edit_delivery_staff', staff_id=s.staff_id) }}">Edit</a>
+        <form method="post" action="{{ url_for('delete_delivery_staff', staff_id=s.staff_id) }}" style="display:inline;">
+                 </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
